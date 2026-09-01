@@ -1,0 +1,136 @@
+﻿@using GymManagementBLL.ViewModels.TrainerViewModel
+@using GymManagementDAL.Entities.Enums
+@model CreateTrainerViewModel
+@{
+    ViewData["Title"] = "Add Trainer";
+}
+
+<div class="container mt-4">
+    <div class="page-header">
+        <div>
+            <h2><i class="bi bi-person-plus me-2"></i>Add New Trainer</h2>
+            <p>Register a new fitness instructor</p>
+        </div>
+    </div>
+
+    @Html.ValidationMessage("DataInvalid", new { @class = "text-danger" })
+
+    <form asp-action="CreateTrainer" method="post">
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body p-4">
+                <div class="section-header mb-4">
+                    <h5><i class="bi bi-person-circle me-2"></i>Personal Information</h5>
+                    <hr>
+                </div>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <label asp-for="@Model.Name" class="form-label">Full Name <span class="text-danger">*</span></label>
+                        <input asp-for="@Model.Name" name="Name" type="text" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="@Model.Email" class="form-label">Email <span class="text-danger">*</span></label>
+                        <input asp-for="@Model.Email" name="Email" type="email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="@Model.Phone" class="form-label">Phone <span class="text-danger">*</span></label>
+                        <input asp-for="@Model.Phone" name="Phone" type="tel" class="form-control" />
+                        <span asp-validation-for="Phone" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="@Model.DateOfBirth" class="form-label">Date of Birth</label>
+                        <input asp-for="@Model.DateOfBirth" name="DateOfBirth" type="date" class="form-control" />
+                        <span asp-validation-for="DateOfBirth" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Gender" class="form-label">Gender</label>
+                        <select asp-for="Gender" asp-items="Html.GetEnumSelectList<Gender>()" class="form-select">
+                            <option value="">— Select Gender —</option>
+                        </select>
+                        <span asp-validation-for="Gender" class="text-danger small"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body p-4">
+                <div class="section-header mb-4">
+                    <h5><i class="bi bi-geo-alt me-2"></i>Address Information</h5>
+                    <hr>
+                </div>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <label asp-for="@Model.BuildingNumber" class="form-label">Building Number</label>
+                        <input asp-for="@Model.BuildingNumber" name="BuildingNumber" type="number" class="form-control" />
+                        <span asp-validation-for="BuildingNumber" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="@Model.Street" class="form-label">Street</label>
+                        <input asp-for="@Model.Street" name="Street" type="text" class="form-control" />
+                        <span asp-validation-for="Street" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="@Model.City" class="form-label">City</label>
+                        <input asp-for="@Model.City" name="City" type="text" class="form-control" />
+                        <span asp-validation-for="City" class="text-danger small"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body p-4">
+                <div class="section-header mb-4">
+                    <h5><i class="bi bi-trophy me-2"></i>Specialization <span class="text-danger">*</span></h5>
+                    <hr>
+                </div>
+                <div class="row g-3">
+                    <div class="col-6 col-md-3">
+                        <label style="border:2px solid var(--border);border-radius:8px;padding:16px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:border-color .2s;">
+                            <input class="form-check-input" type="radio" asp-for="Specialities" value="GeneralFitness" style="display:none;" />
+                            <i class="bi bi-lightning-charge" style="font-size:1.5rem;color:var(--primary);"></i>
+                            <span style="font-size:.85rem;font-weight:600;">General Fitness</span>
+                        </label>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <label style="border:2px solid var(--border);border-radius:8px;padding:16px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:border-color .2s;">
+                            <input class="form-check-input" type="radio" asp-for="Specialities" value="Yoga" style="display:none;" />
+                            <i class="bi bi-peace" style="font-size:1.5rem;color:var(--primary);"></i>
+                            <span style="font-size:.85rem;font-weight:600;">Yoga</span>
+                        </label>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <label style="border:2px solid var(--border);border-radius:8px;padding:16px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:border-color .2s;">
+                            <input class="form-check-input" type="radio" asp-for="Specialities" value="Boxing" style="display:none;" />
+                            <i class="bi bi-shield-fill" style="font-size:1.5rem;color:var(--primary);"></i>
+                            <span style="font-size:.85rem;font-weight:600;">Boxing</span>
+                        </label>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <label style="border:2px solid var(--border);border-radius:8px;padding:16px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:border-color .2s;">
+                            <input class="form-check-input" type="radio" asp-for="Specialities" value="Crossfit" style="display:none;" />
+                            <i class="bi bi-fire" style="font-size:1.5rem;color:var(--primary);"></i>
+                            <span style="font-size:.85rem;font-weight:600;">CrossFit</span>
+                        </label>
+                    </div>
+                </div>
+                <span asp-validation-for="Specialities" class="text-danger small"></span>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end gap-3">
+            <a asp-action="Index" class="btn-outline d-flex align-items-center gap-2">
+                <i class="bi bi-arrow-left"></i>Cancel
+            </a>
+            <button type="submit" class="btn-fill d-flex align-items-center gap-2">
+                <i class="bi bi-plus-circle"></i>Add Trainer
+            </button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

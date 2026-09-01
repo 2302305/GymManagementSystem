@@ -1,0 +1,75 @@
+﻿@using GymManagementBLL.ViewModels.SessionViewModels
+@model UpdateSessionViewModel
+@{
+    ViewData["Title"] = "Edit Session";
+}
+
+<div class="container mt-4">
+    <div class="page-header">
+        <div>
+            <h2><i class="bi bi-pencil me-2"></i>Edit Session</h2>
+            <p>Update session information</p>
+        </div>
+    </div>
+
+    <form asp-action="Edit" method="post">
+        <div class="row justify-content-center">
+            <div class="col-md-9 col-lg-8">
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-body p-4">
+                        <div class="section-header mb-4">
+                            <h5><i class="bi bi-info-circle me-2"></i>Session Information</h5>
+                            <hr>
+                        </div>
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <label asp-for="TrainerId" class="form-label">Trainer <span class="text-danger">*</span></label>
+                                <select asp-for="TrainerId" asp-items="@ViewBag.Trainers" class="form-select">
+                                    <option value="">— Select Trainer —</option>
+                                </select>
+                                <span asp-validation-for="TrainerId" class="text-danger small"></span>
+                            </div>
+                            <div class="col-12">
+                                <label asp-for="Description" class="form-label">Description <span class="text-danger">*</span></label>
+                                <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                                <span asp-validation-for="Description" class="text-danger small"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-body p-4">
+                        <div class="section-header mb-4">
+                            <h5><i class="bi bi-clock me-2"></i>Date & Time</h5>
+                            <hr>
+                        </div>
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <label asp-for="StartDate" class="form-label">Start <span class="text-danger">*</span></label>
+                                <input asp-for="StartDate" type="datetime-local" class="form-control" />
+                                <span asp-validation-for="StartDate" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="EndDate" class="form-label">End <span class="text-danger">*</span></label>
+                                <input asp-for="EndDate" type="datetime-local" class="form-control" />
+                                <span asp-validation-for="EndDate" class="text-danger small"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex gap-3 justify-content-end">
+                    <a asp-action="Index" class="btn-outline d-flex align-items-center gap-2">
+                        <i class="bi bi-arrow-left"></i>Cancel
+                    </a>
+                    <button type="submit" class="btn-fill d-flex align-items-center gap-2">
+                        <i class="bi bi-check-lg"></i>Update Session
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

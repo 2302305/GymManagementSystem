@@ -1,0 +1,82 @@
+﻿@using GymManagementBLL.ViewModels.MembershipViewModel
+@model CreateMembershipViewModel
+@{
+    ViewData["Title"] = "New Membership";
+}
+
+<div class="container mt-4">
+    <div class="page-header">
+        <div>
+            <h2><i class="bi bi-award me-2"></i>New Membership</h2>
+            <p>Assign a plan to a member</p>
+        </div>
+        <a asp-action="Index" class="btn-outline d-flex align-items-center gap-2">
+            <i class="bi bi-arrow-left"></i>Back to List
+        </a>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    @if (TempData["ErrorMessage"] is not null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>@TempData["ErrorMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show">
+                            @Html.ValidationSummary(true, "", new { @class = "mb-0 ps-0 list-unstyled" })
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    <form asp-action="Create" asp-controller="Membership" method="post">
+                        @Html.AntiForgeryToken()
+                        <div class="mb-4">
+                            <label asp-for="MemberId" class="form-label">Member</label>
+                            <select asp-for="MemberId" asp-items="Model.Members" class="form-select">
+                                <option value="">— Select a Member —</option>
+                            </select>
+                            <span asp-validation-for="MemberId" class="text-danger small"></span>
+                        </div>
+                        <div class="mb-4">
+                            <label asp-for="PlanId" class="form-label">Plan</label>
+                            <select asp-for="PlanId" asp-items="Model.Plans" class="form-select">
+                                <option value="">— Select a Plan —</option>
+                            </select>
+                            <span asp-validation-for="PlanId" class="text-danger small"></span>
+                        </div>
+                        <div class="row g-3 mb-4">
+                            <div class="col-6">
+                                <label asp-for="StartDate" class="form-label">Start Date</label>
+                                <input asp-for="StartDate" type="date" class="form-control" />
+                                <span asp-validation-for="StartDate" class="text-danger small"></span>
+                            </div>
+                            <div class="col-6">
+                                <label asp-for="EndDate" class="form-label">End Date</label>
+                                <input asp-for="EndDate" type="date" class="form-control" />
+                                <span asp-validation-for="EndDate" class="text-danger small"></span>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-3 pt-2" style="border-top:1px solid var(--border);">
+                            <a asp-action="Index" class="btn-outline flex-fill text-center">Cancel</a>
+                            <button type="submit" class="btn-fill flex-fill text-center">
+                                <i class="bi bi-check-lg me-1"></i>Create Membership
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

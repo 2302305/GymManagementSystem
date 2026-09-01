@@ -1,0 +1,43 @@
+﻿@using GymManagementBLL.ViewModels.SessionViewModels
+@model Tuple<IEnumerable<SessionViewModel>, string>
+@{
+    var sessions = Model.Item1;
+    var color = Model.Item2;
+}
+
+<div class="table-responsive">
+    <table class="table table-hover align-middle shadow-sm rounded">
+        <thead class="table-@color">
+            <tr>
+                <th>Category</th>
+                <th>Trainer</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Duration</th>
+                <th class="text-center">Slots</th>
+                <th class="text-center">Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var s in sessions)
+            {
+                <tr class="@(color == "secondary" ? "text-muted" : "")">
+                    <td><strong>@s.CategoryName</strong></td>
+                    <td><i class="bi bi-person-circle text-@color me-1"></i>@s.TrainerName</td>
+                    <td>@s.DisplayDate</td>
+                    <td>@s.DisplayTimeRange</td>
+                    <td>@s.Duration</td>
+                    <td class="text-center">
+                        <span class="badge bg-@color">@s.AvailableSlots / @s.Capacity</span>
+                    </td>
+                    <td class="text-center">
+                        <a asp-controller="Session" asp-action="Details" asp-route-id="@s.Id"
+                           class="btn btn-sm btn-outline-@color">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

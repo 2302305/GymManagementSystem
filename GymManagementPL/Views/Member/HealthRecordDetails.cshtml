@@ -1,0 +1,73 @@
+﻿@model HealthRecordViewModel
+@{
+    ViewData["Title"] = "Health Record";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card border-0 shadow">
+                <div class="card-header bg-primary-color text-white text-center py-4">
+                    <i class="bi bi-heart-pulse" style="font-size:2.5rem;display:block;margin-bottom:8px;"></i>
+                    <h3 class="mb-0 fw-bold">Health Record</h3>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="p-4 rounded h-100" style="background:var(--surface);border:1px solid var(--border);">
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <div style="width:38px;height:38px;border-radius:50%;background:var(--accent-light);display:flex;align-items:center;justify-content:center;">
+                                        <i class="bi bi-arrows-vertical" style="color:var(--primary);"></i>
+                                    </div>
+                                    <small class="text-muted" style="font-size:.73rem;text-transform:uppercase;letter-spacing:.5px;">Height</small>
+                                </div>
+                                <h4 class="mb-0" style="color:var(--primary);">@Model.Hieght <small class="text-muted fw-normal" style="font-size:.8rem;">cm</small></h4>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-4 rounded h-100" style="background:var(--surface);border:1px solid var(--border);">
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <div style="width:38px;height:38px;border-radius:50%;background:var(--accent-light);display:flex;align-items:center;justify-content:center;">
+                                        <i class="bi bi-speedometer2" style="color:var(--primary);"></i>
+                                    </div>
+                                    <small class="text-muted" style="font-size:.73rem;text-transform:uppercase;letter-spacing:.5px;">Weight</small>
+                                </div>
+                                <h4 class="mb-0" style="color:var(--primary);">@Model.Weight <small class="text-muted fw-normal" style="font-size:.8rem;">kg</small></h4>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-4 rounded h-100" style="background:var(--surface);border:1px solid var(--border);">
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <div style="width:38px;height:38px;border-radius:50%;background:#fef2f2;display:flex;align-items:center;justify-content:center;">
+                                        <i class="bi bi-droplet-fill" style="color:#ef4444;"></i>
+                                    </div>
+                                    <small class="text-muted" style="font-size:.73rem;text-transform:uppercase;letter-spacing:.5px;">Blood Type</small>
+                                </div>
+                                <h4 class="mb-0 text-danger fw-bold">@Model.BloodType</h4>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-4 rounded h-100" style="background:var(--surface);border:1px solid var(--border);">
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <div style="width:38px;height:38px;border-radius:50%;background:#fffbeb;display:flex;align-items:center;justify-content:center;">
+                                        <i class="bi bi-journal-text" style="color:#f59e0b;"></i>
+                                    </div>
+                                    <small class="text-muted" style="font-size:.73rem;text-transform:uppercase;letter-spacing:.5px;">Note</small>
+                                </div>
+                                <p class="mb-0" style="font-size:.9rem;color:var(--text-dark);">
+                                    @(string.IsNullOrEmpty(Model.Note) ? "No notes recorded" : Model.Note)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a asp-controller="Member" asp-action="Index"
+                       class="btn-outline d-flex align-items-center gap-2 justify-content-center">
+                        <i class="bi bi-arrow-left"></i>Back to Members
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

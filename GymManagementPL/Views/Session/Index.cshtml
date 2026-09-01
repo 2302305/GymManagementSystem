@@ -1,0 +1,159 @@
+﻿@using GymManagementBLL.ViewModels.SessionViewModels
+@model IEnumerable<SessionViewModel>
+@{
+    ViewData["Title"] = "Sessions";
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div id="Alert" class="alert alert-success alert-dismissible fade show mt-3">
+        <i class="bi bi-check-circle-fill me-2"></i>@TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div id="Alert" class="alert alert-danger alert-dismissible fade show mt-3">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>@TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="container">
+    <div class="page-header">
+        <div>
+            <h2><i class="bi bi-calendar-event me-2"></i>Training Sessions</h2>
+            <p>Manage gym training sessions and classes</p>
+        </div>
+        <a asp-controller="Session" asp-action="Create"
+           class="btn-fill d-flex align-items-center gap-2 rounded-pill" style="padding:10px 22px;">
+            <i class="bi bi-plus-lg"></i>Add Session
+        </a>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="row g-4">
+            @foreach (var session in Model)
+            {
+                var statusBg = session.Status == "OnGoing" ? "bg-success" : session.Status == "UpComing" ? "bg-primary-color" : "bg-secondary";
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card h-100 session-card border-0 shadow-sm">
+                        <div class="card-header text-white py-3 @statusBg">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0 fw-bold"><i class="bi bi-calendar-event me-2"></i>@session.CategoryName</h6>
+                                <span class="badge rounded-pill" style="background:rgba(255,255,255,.2);font-size:.73rem;">@session.Status</span>
+                            </div>
+                        </div>
+                        <div class="card-body p-4">
+                            <p class="text-muted mb-3" style="font-size:.87rem;line-height:1.5;">@session.Description</p>
+                            <div class="d-flex flex-column gap-2">
+                                <div class="d-flex align-items-center gap-2" style="font-size:.875rem;color:var(--text-muted);">
+                                    <i class="bi bi-person-circle text-primary-color"></i>
+                                    <span><strong style="color:var(--text-dark);">Trainer:</strong> @session.TrainerName</span>
+                                </div>
+                                <div class="d-flex align-items-center gap-2" style="font-size:.875rem;color:var(--text-muted);">
+                                    <i class="bi bi-calendar3 text-primary-color"></i>
+                                    <span><strong style="color:var(--text-dark);">Date:</strong> @session.DisplayDate</span>
+                                </div>
+                                <div class="d-flex align-items-center gap-2" style="font-size:.875rem;color:var(--text-muted);">
+                                    <i class="bi bi-clock text-primary-color"></i>
+                                    <span><strong style="color:var(--text-dark);">Time:</strong> @session.DisplayTimeRange</span>
+                                </div>
+                                <div class="d-flex align-items-center gap-2" style="font-size:.875rem;color:var(--text-muted);">
+                                    <i class="bi bi-hourglass-split text-primary-color"></i>
+                                    <span><strong style="color:var(--text-dark);">Duration:</strong> @session.Duration</span>
+                                </div>
+                                <div class="d-flex align-items-center gap-2" style="font-size:.875rem;color:var(--text-muted);">
+                                    <i class="bi bi-people text-primary-color"></i>
+                                    <span>
+                                        <strong style="color:var(--text-dark);">Slots:</strong>
+                                        <span class="badge rounded-pill ms-1" style="background:var(--accent-light);color:var(--primary);font-weight:700;">
+                                            @session.AvailableSlots / @session.Capacity
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer" style="background:var(--surface);border-top:1px solid var(--border);">
+                            <div class="d-grid gap-2">
+                                <a asp-action="Details" asp-route-id="@session.Id"
+                                   class="btn-outline btn-sm d-flex align-items-center justify-content-center gap-2">
+                                    <i class="bi bi-eye"></i>View Details
+                                </a>
+                                <div class="d-flex gap-2">
+                                    <a asp-action="Edit" asp-route-id="@session.Id"
+                                       class="btn-outline btn-sm flex-fill d-flex align-items-center justify-content-center gap-1">
+                                        <i class="bi bi-pencil"></i>Edit
+                                    </a>
+                                    <button type="button" class="btn btn-sm btn-outline-danger flex-fill"
+                                            data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                            data-session-id="@session.Id"
+                                            data-session-name="@session.CategoryName"
+                                            data-session-date="@session.DisplayDate">
+                                        <i class="bi bi-trash me-1"></i>Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+            <i class="bi bi-calendar-x"></i>
+            <h4>No Sessions Available</h4>
+            <p>Create your first training session to get started.</p>
+            <a asp-controller="Session" asp-action="Create" class="btn-fill mt-3 d-inline-block">
+                <i class="bi bi-plus-lg me-1"></i>Add Session
+            </a>
+        </div>
+    }
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width:420px;">
+        <div class="modal-content">
+            <div class="modal-header" style="background:var(--danger);color:#fff;">
+                <h5 class="modal-title"><i class="bi bi-trash me-2"></i>Delete Session</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center py-4">
+                <i class="bi bi-exclamation-triangle-fill text-warning" style="font-size:2.5rem;"></i>
+                <p class="mt-3 mb-2">Are you sure you want to delete this session?</p>
+                <div class="p-3 rounded mt-3 text-start" style="background:var(--surface);border:1px solid var(--border);">
+                    <strong>Category:</strong> <span id="modalSessionName"></span><br>
+                    <strong>Date:</strong> <span id="modalSessionDate"></span>
+                </div>
+                <p class="text-danger small mt-3 mb-0">
+                    <i class="bi bi-info-circle me-1"></i>Only completed sessions with no bookings can be deleted.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill px-4" data-bs-dismiss="modal">Keep</button>
+                <form id="deleteForm" asp-action="DeleteConfirmed" asp-controller="Session" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" id="deleteSessionId" name="id" />
+                    <button type="submit" class="btn btn-danger btn-sm rounded-pill px-4">
+                        <i class="bi bi-trash me-1"></i>Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_AlertTimeOut" />
+    <script>
+        document.getElementById('deleteModal').addEventListener('show.bs.modal', function (e) {
+            const btn = e.relatedTarget;
+            document.getElementById('modalSessionName').textContent = btn.getAttribute('data-session-name');
+            document.getElementById('modalSessionDate').textContent = btn.getAttribute('data-session-date');
+            document.getElementById('deleteSessionId').value = btn.getAttribute('data-session-id');
+        });
+    </script>
+}

@@ -1,0 +1,9 @@
+﻿global using AutoMapper;
+global using GymManagementBLL.Services.Interfaces;
+global using GymManagementBLL.ViewModels.SessionViewModels;
+global using GymManagementBLL.ViewModels.TrainerViewModel;
+global using GymManagementDAL.Entities;
+global using GymManagementDAL.Entities.Address;
+global using GymManagementDAL.Entities.Enums;
+global using GymManagementDAL.Repositories.Interfaces;
+global using System.ComponentModel.DataAnnotations;

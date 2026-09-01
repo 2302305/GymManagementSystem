@@ -1,0 +1,13 @@
+﻿global using GymManagementBLL.AutoMapping;
+global using GymManagementBLL.Services.Interfaces;
+global using GymManagementBLL.Services.ServiceClasses;
+global using GymManagementBLL.ViewModels.MemberViewModel;
+global using GymManagementDAL.Data.Context;
+global using GymManagementDAL.Data.DataSeeding;
+global using GymManagementDAL.Repositories.Interfaces;
+global using GymManagementDAL.Repositories.RepositoryClasses;
+global using Microsoft.EntityFrameworkCore;
+global using GymManagementBLL.Services.Attachments;
+global using GymManagementBLL.Services.RepositoryClasses;
+global using GymManagementDAL.Entities;
+global using Microsoft.AspNetCore.Identity;

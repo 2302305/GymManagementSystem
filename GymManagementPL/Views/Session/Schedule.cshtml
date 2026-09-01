@@ -1,0 +1,202 @@
+﻿@using GymManagementBLL.ViewModels.SessionViewModels
+@model IEnumerable<SessionViewModel>
+@{
+    ViewData["Title"] = "Session Schedule";
+
+    var ongoing = Model.Where(s => s.Status == "OnGoing").ToList();
+    var upcoming = Model.Where(s => s.Status == "UpComing").ToList();
+    var completed = Model.Where(s => s.Status == "Completed").ToList();
+}
+
+<div class="container">
+    <header class="d-flex justify-content-between mt-5 mb-4 align-items-center">
+        <div>
+            <h2 class="text-primary-color mb-0">Session Schedule</h2>
+            <p class="text-muted">Overview of all gym training sessions</p>
+        </div>
+        <div class="d-flex gap-2">
+            <span class="badge bg-success fs-6 px-3 py-2">
+                <i class="bi bi-circle-fill me-1"></i> Ongoing: @ongoing.Count
+            </span>
+            <span class="badge bg-primary fs-6 px-3 py-2">
+                <i class="bi bi-clock me-1"></i> Upcoming: @upcoming.Count
+            </span>
+            <span class="badge bg-secondary fs-6 px-3 py-2">
+                <i class="bi bi-check-circle me-1"></i> Completed: @completed.Count
+            </span>
+        </div>
+    </header>
+
+    @if (!Model.Any())
+    {
+        <div class="text-center py-5">
+            <i class="bi bi-calendar-x display-1 text-muted"></i>
+            <h4 class="mt-3 text-muted">No Sessions Scheduled</h4>
+            <p class="text-muted">Add sessions to see them appear here</p>
+            <a asp-controller="Session" asp-action="Create" class="btn btn-fill mt-2">
+                <i class="bi bi-plus-lg me-1"></i>Add Session
+            </a>
+        </div>
+    }
+    else
+    {
+        @* ── ONGOING ── *@
+        @if (ongoing.Any())
+        {
+            <div class="mb-5">
+                <h5 class="fw-bold mb-3">
+                    <span class="badge bg-success me-2">
+                        <i class="bi bi-circle-fill"></i>
+                    </span>Ongoing Sessions
+                </h5>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle shadow-sm rounded">
+                        <thead class="table-success">
+                            <tr>
+                                <th>Category</th>
+                                <th>Trainer</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Duration</th>
+                                <th class="text-center">Slots</th>
+                                <th class="text-center">Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var s in ongoing)
+                            {
+                                <tr>
+                                    <td><strong>@s.CategoryName</strong></td>
+                                    <td>
+                                        <i class="bi bi-person-circle text-success me-1"></i>
+                                        @s.TrainerName
+                                    </td>
+                                    <td>@s.DisplayDate</td>
+                                    <td>@s.DisplayTimeRange</td>
+                                    <td>@s.Duration</td>
+                                    <td class="text-center">
+                                        <span class="badge bg-success">
+                                            @s.AvailableSlots / @s.Capacity
+                                        </span>
+                                    </td>
+                                    <td class="text-center">
+                                        <a asp-action="Details" asp-route-id="@s.Id"
+                                           class="btn btn-sm btn-outline-success">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+
+        @* ── UPCOMING ── *@
+        @if (upcoming.Any())
+        {
+            <div class="mb-5">
+                <h5 class="fw-bold mb-3">
+                    <span class="badge bg-primary me-2">
+                        <i class="bi bi-clock"></i>
+                    </span>Upcoming Sessions
+                </h5>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle shadow-sm rounded">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>Category</th>
+                                <th>Trainer</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Duration</th>
+                                <th class="text-center">Slots</th>
+                                <th class="text-center">Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var s in upcoming)
+                            {
+                                <tr>
+                                    <td><strong>@s.CategoryName</strong></td>
+                                    <td>
+                                        <i class="bi bi-person-circle text-primary me-1"></i>
+                                        @s.TrainerName
+                                    </td>
+                                    <td>@s.DisplayDate</td>
+                                    <td>@s.DisplayTimeRange</td>
+                                    <td>@s.Duration</td>
+                                    <td class="text-center">
+                                        <span class="badge bg-primary">
+                                            @s.AvailableSlots / @s.Capacity
+                                        </span>
+                                    </td>
+                                    <td class="text-center">
+                                        <a asp-action="Details" asp-route-id="@s.Id"
+                                           class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+
+        @* ── COMPLETED ── *@
+        @if (completed.Any())
+        {
+            <div class="mb-5">
+                <h5 class="fw-bold mb-3">
+                    <span class="badge bg-secondary me-2">
+                        <i class="bi bi-check-circle"></i>
+                    </span>Completed Sessions
+                </h5>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle shadow-sm rounded">
+                        <thead class="table-secondary">
+                            <tr>
+                                <th>Category</th>
+                                <th>Trainer</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Duration</th>
+                                <th class="text-center">Slots</th>
+                                <th class="text-center">Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var s in completed)
+                            {
+                                <tr class="text-muted">
+                                    <td><strong>@s.CategoryName</strong></td>
+                                    <td>
+                                        <i class="bi bi-person-circle me-1"></i>
+                                        @s.TrainerName
+                                    </td>
+                                    <td>@s.DisplayDate</td>
+                                    <td>@s.DisplayTimeRange</td>
+                                    <td>@s.Duration</td>
+                                    <td class="text-center">
+                                        <span class="badge bg-secondary">
+                                            @s.AvailableSlots / @s.Capacity
+                                        </span>
+                                    </td>
+                                    <td class="text-center">
+                                        <a asp-action="Details" asp-route-id="@s.Id"
+                                           class="btn btn-sm btn-outline-secondary">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    }
+</div>

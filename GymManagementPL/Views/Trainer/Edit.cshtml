@@ -1,0 +1,145 @@
+﻿@using GymManagementBLL.ViewModels.TrainerViewModel
+@model TrainerUpdateViewModel
+@{
+    ViewData["Title"] = "Edit Trainer";
+}
+
+<div class="container mt-4">
+    <div class="page-header">
+        <div>
+            <h2><i class="bi bi-pencil me-2"></i>Edit Trainer</h2>
+            <p>Update trainer information</p>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center gap-3 mb-4 pb-3" style="border-bottom:2px solid var(--border);">
+                        <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <i class="bi bi-person-fill text-white" style="font-size:1.4rem;"></i>
+                        </div>
+                        <div>
+                            <small class="text-muted" style="font-size:.73rem;text-transform:uppercase;letter-spacing:.5px;">Editing profile for</small>
+                            <h4 class="mb-0">@Model.Name</h4>
+                        </div>
+                    </div>
+
+                    <form asp-action="Edit" method="post">
+                        <input readonly hidden asp-for="Name" />
+
+                        <div class="section-header mb-4">
+                            <h5><i class="bi bi-person-circle me-2"></i>Personal Information</h5>
+                            <hr>
+                        </div>
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-6">
+                                <label asp-for="Email" class="form-label">Email Address</label>
+                                <input asp-for="Email" type="email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Phone" class="form-label">Phone</label>
+                                <input asp-for="Phone" type="tel" class="form-control" />
+                                <span asp-validation-for="Phone" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label asp-for="BuildingNumber" class="form-label">Building No.</label>
+                                <input asp-for="BuildingNumber" type="number" class="form-control" />
+                                <span asp-validation-for="BuildingNumber" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label asp-for="Street" class="form-label">Street</label>
+                                <input asp-for="Street" type="text" class="form-control" />
+                                <span asp-validation-for="Street" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label asp-for="City" class="form-label">City</label>
+                                <input asp-for="City" type="text" class="form-control" />
+                                <span asp-validation-for="City" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="section-header mb-4">
+                            <h5><i class="bi bi-trophy me-2"></i>Specialization</h5>
+                            <hr>
+                        </div>
+                        <div class="row g-3 mb-4">
+                            <div class="col-6 col-md-3">
+                                <label class="spec-card" style="border:2px solid var(--border);border-radius:8px;padding:16px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;">
+                                    <input type="radio" name="Specialization" asp-for="Specialization" value="1" style="display:none;" />
+                                    <i class="bi bi-lightning-charge" style="font-size:1.5rem;color:var(--primary);"></i>
+                                    <span style="font-size:.85rem;font-weight:600;">General Fitness</span>
+                                </label>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <label class="spec-card" style="border:2px solid var(--border);border-radius:8px;padding:16px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;">
+                                    <input type="radio" name="Specialization" asp-for="Specialization" value="2" style="display:none;" />
+                                    <i class="bi bi-peace" style="font-size:1.5rem;color:var(--primary);"></i>
+                                    <span style="font-size:.85rem;font-weight:600;">Yoga</span>
+                                </label>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <label class="spec-card" style="border:2px solid var(--border);border-radius:8px;padding:16px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;">
+                                    <input type="radio" name="Specialization" asp-for="Specialization" value="3" style="display:none;" />
+                                    <i class="bi bi-shield-fill" style="font-size:1.5rem;color:var(--primary);"></i>
+                                    <span style="font-size:.85rem;font-weight:600;">Boxing</span>
+                                </label>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <label class="spec-card" style="border:2px solid var(--border);border-radius:8px;padding:16px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;">
+                                    <input type="radio" name="Specialization" asp-for="Specialization" value="4" style="display:none;" />
+                                    <i class="bi bi-fire" style="font-size:1.5rem;color:var(--primary);"></i>
+                                    <span style="font-size:.85rem;font-weight:600;">CrossFit</span>
+                                </label>
+                            </div>
+                        </div>
+                        <span asp-validation-for="Specialization" class="text-danger small"></span>
+
+                        <div class="d-flex gap-3 pt-3" style="border-top:1px solid var(--border);">
+                            <a asp-action="Index" class="btn-outline flex-fill text-center d-flex align-items-center justify-content-center gap-2">
+                                <i class="bi bi-arrow-left"></i>Cancel
+                            </a>
+                            <button type="submit" class="btn-fill flex-fill d-flex align-items-center justify-content-center gap-2">
+                                <i class="bi bi-check-lg"></i>Update Trainer
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <style>
+        .spec-card.selected {
+            border-color: var(--primary) !important;
+            background-color: rgba(var(--primary-rgb, 13, 27, 94), 0.06);
+        }
+
+            .spec-card.selected i,
+            .spec-card.selected span {
+                color: var(--primary) !important;
+            }
+    </style>
+
+    <script>
+        function updateSpecCards() {
+            document.querySelectorAll('.spec-card').forEach(label => {
+                const radio = label.querySelector('input[type="radio"]');
+                label.classList.toggle('selected', radio.checked);
+            });
+        }
+
+        document.querySelectorAll('.spec-card input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', updateSpecCards);
+        });
+
+        // Highlight on page load if a value is already selected (edit mode)
+        updateSpecCards();
+    </script>
+}

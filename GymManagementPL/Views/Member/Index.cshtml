@@ -1,0 +1,164 @@
+﻿@using GymManagementBLL.ViewModels.MemberViewModel
+@model IEnumerable<MemberViewModel>
+@{
+    ViewData["Title"] = "Members";
+}
+
+@if (TempData["SuccessMessage"] is not null)
+{
+    <div id="Alert" class="alert alert-success alert-dismissible fade show mt-3">
+        <i class="bi bi-check-circle-fill me-2"></i>@TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+@if (TempData["ErrorMessage"] is not null)
+{
+    <div id="Alert" class="alert alert-danger alert-dismissible fade show mt-3">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>@TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="container">
+    <div class="page-header">
+        <div>
+            <h2><i class="bi bi-people me-2"></i>Members</h2>
+            <p>Manage gym members and their records</p>
+        </div>
+        <a asp-action="Create" asp-controller="Member"
+           class="btn-fill d-flex align-items-center gap-2 rounded-pill" style="padding:10px 22px;">
+            <i class="bi bi-plus-lg"></i>Add Member
+        </a>
+    </div>
+
+    @if (Model is not null && Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-borderless">
+                <thead>
+                    <tr>
+                        <th>Photo</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Gender</th>
+                        <th>Phone</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var member in Model)
+                    {
+                        <tr>
+                            <td>
+                                <span class="avatar">
+                                    @if (string.IsNullOrEmpty(member.Photo))
+                                    {
+                                        <img src="~/Images/about p1.jpg" alt="@member.Name" />
+                                    }
+                                    else
+                                    {
+                                        <img src="~/Images/Members/@member.Photo" alt="@member.Name" />
+                                    }
+                                </span>
+                            </td>
+                            <td><strong>@member.Name</strong></td>
+                            <td>@member.Email</td>
+                            <td>
+                                <span class="badge rounded-pill"
+                                      style="background:var(--accent-light);color:var(--primary);font-weight:600;">
+                                    @member.Gender
+                                </span>
+                            </td>
+                            <td>@member.Phone</td>
+                            <td class="action position-relative">
+                                <div class="dropdown">
+                                    <!-- Change this button -->
+                                    <button class="btn btn-link p-0 border-0 d-flex align-items-center" type="button"
+                                            id="dropdownBtn-@member.Id" data-dd-toggle>
+                                        <!-- ADD THIS -->
+                                        <i class="bi bi-three-dots-vertical" style="font-size:1.1rem;color:var(--text-muted);"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="ddBtn-@member.Id">
+                                        <li>
+                                            <a asp-action="MemberDetails" asp-controller="Member" asp-route-memberId="@member.Id" class="dropdown-item">
+                                                <i class="bi bi-eye me-2 text-primary-color"></i>View Member
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a asp-action="HealthRecordDetails" asp-controller="Member" asp-route-memberId="@member.Id" class="dropdown-item">
+                                                <i class="bi bi-heart-pulse me-2 text-primary-color"></i>Health Record
+                                            </a>
+                                        </li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <a asp-action="MemberEdit" asp-controller="Member" asp-route-id="@member.Id" class="dropdown-item">
+                                                <i class="bi bi-pencil me-2 text-primary-color"></i>Edit Member
+                                            </a>
+                                        </li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <a asp-action="Delete" asp-controller="Member" asp-route-id="@member.Id" class="dropdown-item text-danger">
+                                                <i class="bi bi-trash me-2"></i>Delete
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+            <i class="bi bi-people"></i>
+            <h4>No Members Yet</h4>
+            <p>Add your first member to get started.</p>
+            <a asp-action="Create" asp-controller="Member" class="btn-fill mt-3 d-inline-block">
+                <i class="bi bi-plus-lg me-1"></i>Add Member
+            </a>
+        </div>
+    }
+</div>
+@section Scripts {
+    <partial name="_AlertTimeOut" />
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Store button->menu pairs BEFORE moving anything
+            const pairs = [];
+            document.querySelectorAll('[data-dd-toggle]').forEach(function (btn) {
+                const menu = btn.nextElementSibling;
+                if (menu && menu.classList.contains('dropdown-menu')) {
+                    document.body.appendChild(menu);
+                    pairs.push({ btn, menu });
+                }
+            });
+
+            pairs.forEach(function ({ btn, menu }) {
+                btn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    const isOpen = menu.classList.contains('show');
+
+                    // Close all first
+                    pairs.forEach(p => p.menu.classList.remove('show'));
+
+                    if (!isOpen) {
+                        const rect = btn.getBoundingClientRect();
+                        menu.style.position = 'fixed';
+                        menu.style.zIndex   = '9999';
+                        menu.style.top      = (rect.bottom + 4) + 'px';
+                        menu.style.left     = 'auto';
+                        menu.style.right    = (window.innerWidth - rect.right) + 'px';
+                        menu.classList.add('show');
+                    }
+                });
+            });
+
+            document.addEventListener('click', function () {
+                pairs.forEach(p => p.menu.classList.remove('show'));
+            });
+        });
+    </script>
+}

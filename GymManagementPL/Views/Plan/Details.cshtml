@@ -1,0 +1,68 @@
+﻿@model PlanViewModel
+@{
+    ViewData["Title"] = "Plan Details";
+    var isActive = Model.IsActive;
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card border-0 shadow plan-card">
+                <div class="card-header text-white text-center py-5 @(isActive ? "bg-primary-color" : "bg-secondary")">
+                    <i class="bi bi-award" style="font-size:3rem;display:block;margin-bottom:12px;"></i>
+                    <h2 class="mb-1 fw-bold">@Model.Name</h2>
+                    <span class="badge rounded-pill mt-1" style="background:rgba(255,255,255,.2);padding:6px 16px;font-size:.8rem;">
+                        @(isActive ? "Active Plan" : "Inactive Plan")
+                    </span>
+                </div>
+                <div class="card-body p-4">
+                    <div class="text-center p-4 rounded mb-4" style="background:var(--surface);border:1px solid var(--border);">
+                        <div style="font-size:2.8rem;font-weight:800;color:var(--primary);line-height:1;">@Model.Price.ToString("N0")</div>
+                        <div style="font-size:.85rem;color:var(--text-muted);margin-top:4px;">Egyptian Pounds</div>
+                    </div>
+                    <div class="d-flex flex-column gap-3">
+                        <div class="d-flex align-items-center gap-3 p-3 rounded" style="background:var(--surface);border:1px solid var(--border);">
+                            <div style="width:42px;height:42px;border-radius:8px;background:var(--accent-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                                <i class="bi bi-calendar-check" style="color:var(--primary);"></i>
+                            </div>
+                            <div>
+                                <small class="text-muted d-block" style="font-size:.73rem;text-transform:uppercase;letter-spacing:.5px;">Duration</small>
+                                <strong>@Model.DurationDays days</strong>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-start gap-3 p-3 rounded" style="background:var(--surface);border:1px solid var(--border);">
+                            <div style="width:42px;height:42px;border-radius:8px;background:var(--accent-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">
+                                <i class="bi bi-file-text" style="color:var(--primary);"></i>
+                            </div>
+                            <div>
+                                <small class="text-muted d-block mb-1" style="font-size:.73rem;text-transform:uppercase;letter-spacing:.5px;">Description</small>
+                                <p class="mb-0" style="font-size:.9rem;color:var(--text-muted);">@Model.Description</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center gap-3 p-3 rounded" style="background:var(--surface);border:1px solid var(--border);">
+                            <div style="width:42px;height:42px;border-radius:8px;background:@(isActive ? "#ecfdf5" : "#f3f4f6");display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                                <i class="@(isActive ? "bi bi-check-circle-fill text-success" : "bi bi-x-circle-fill text-secondary")"></i>
+                            </div>
+                            <div>
+                                <small class="text-muted d-block" style="font-size:.73rem;text-transform:uppercase;letter-spacing:.5px;">Status</small>
+                                @if (isActive)
+                                {
+                                    <span class="badge rounded-pill" style="background:#ecfdf5;color:#065f46;font-weight:700;padding:4px 12px;">Active</span>
+                                }
+                                else
+                                {
+                                    <span class="badge rounded-pill" style="background:#f3f4f6;color:#374151;font-weight:700;padding:4px 12px;">Inactive</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a asp-action="Index" class="btn-outline d-flex align-items-center gap-2 justify-content-center">
+                        <i class="bi bi-arrow-left"></i>Back to Plans
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
